@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coconut Spielberg – Essbar. Trinkbar. Feierbar.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g: #0d2b0d;
+  --g2: #1a4a1a;
+  --o: #ff4e00;
+  --y: #ffd000;
+  --cream: #fffbe8;
+  --w: #ffffff;
+  --ink: #0a1a0a;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* PH */
+.ph{width:100%;height:100%;background:rgba(0,0,0,0.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+.ph span{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-align:center;padding:0 10px;line-height:1.5;}
+.ph-s{font-size:8px;color:var(--o);opacity:0.7;}
+
+/* ──── NAV ──── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:12px 50px;transition:all 0.4s;}
+nav.scrolled{background:var(--g);padding:8px 50px;}
+.nav-logo-wrap{text-decoration:none;}
+.nav-logo-wrap img,.nav-logo-ph{
+  width:64px;height:64px;border-radius:50%;
+  object-fit:contain;
+  animation:spin 8s linear infinite;
+  transition:width 0.3s,height 0.3s;
+}
+.nav-logo-ph{background:rgba(255,255,255,0.1);border:2px dashed rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:10px;letter-spacing:0.1em;color:var(--y);}
+nav.scrolled .nav-logo-wrap img,nav.scrolled .nav-logo-ph{width:48px;height:48px;}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.nav-r{display:flex;align-items:center;gap:28px;}
+.nav-r a{font-family:'Bangers',cursive;font-size:17px;letter-spacing:0.12em;color:var(--w);text-decoration:none;opacity:0.8;transition:all 0.25s;}
+.nav-r a:hover{opacity:1;color:var(--y);}
+.nav-res{background:var(--o);color:var(--w)!important;opacity:1!important;padding:8px 26px;font-size:15px!important;}
+.nav-res:hover{background:var(--y)!important;color:var(--ink)!important;}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;}
+.burger span{width:24px;height:2px;background:var(--w);display:block;}
+
+/* DRAWER */
+.drw{display:none;position:fixed;top:0;right:-100%;width:260px;height:100vh;background:var(--g);z-index:400;padding:80px 36px;flex-direction:column;transition:right 0.4s;border-left:3px solid var(--o);}
+.drw.open{right:0;}
+.drw a{font-family:'Bangers',cursive;font-size:24px;letter-spacing:0.15em;color:var(--cream);text-decoration:none;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.1);display:block;transition:color 0.25s;}
+.drw a:hover{color:var(--o);}
+.drw-x{position:absolute;top:20px;right:20px;background:none;border:none;font-size:22px;color:var(--cream);cursor:pointer;}
+.drw-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:399;}
+.drw-ov.open{display:block;}
+
+/* ──── HERO ──── */
+.hero{
+  height:100vh;min-height:650px;
+  position:relative;overflow:hidden;
+  background:var(--g);
+}
+.hero-photo{position:absolute;inset:0;}
+.hero-photo img,.hero-photo .ph{width:100%;height:100%;object-fit:cover;filter:brightness(0.4) saturate(1.2);}
+/* diagonal color wash */
+.hero-wash{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(13,43,13,0.85) 0%,rgba(255,78,0,0.25) 60%,transparent 100%);
+}
+/* BIG TYPE — overlapping the photo */
+.hero-type{
+  position:absolute;
+  bottom:0;left:-10px;
+  font-family:'Bangers',cursive;
+  font-size:clamp(120px,18vw,240px);
+  line-height:0.85;
+  color:var(--w);
+  letter-spacing:0.02em;
+  user-select:none;
+  opacity:0;
+  animation:heroIn 0.8s 0.2s forwards;
+  mix-blend-mode:overlay;
+  pointer-events:none;
+}
+@keyframes heroIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero-content{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  z-index:2;
+  width:100%;
+  padding:0 30px;
+}
+.hero-eyebrow{
+  display:inline-block;
+  background:var(--o);
+  font-family:'Bangers',cursive;
+  font-size:14px;letter-spacing:0.3em;
+  color:var(--w);padding:7px 22px;
+  margin-bottom:20px;
+  opacity:0;animation:heroIn 0.6s 0.4s forwards;
+}
+.hero-h1{
+  font-family:'Bangers',cursive;
+  font-size:clamp(72px,14vw,180px);
+  line-height:0.88;
+  color:var(--w);
+  letter-spacing:0.03em;
+  text-shadow:4px 4px 0 var(--o);
+  opacity:0;animation:heroIn 0.6s 0.55s forwards;
+  margin-bottom:6px;
+}
+.hero-h1 .yellow{color:var(--y);text-shadow:3px 3px 0 var(--o);}
+.hero-tagline{
+  font-family:'Bangers',cursive;
+  font-size:clamp(18px,3vw,36px);
+  letter-spacing:0.3em;
+  color:rgba(255,255,255,0.7);
+  margin-bottom:44px;
+  opacity:0;animation:heroIn 0.6s 0.7s forwards;
+}
+.hero-ctas{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:heroIn 0.6s 0.85s forwards;
+}
+.cta-fill{
+  font-family:'Bangers',cursive;font-size:18px;letter-spacing:0.2em;
+  background:var(--o);color:var(--w);
+  padding:14px 44px;text-decoration:none;border:3px solid var(--o);
+  transition:all 0.3s;
+}
+.cta-fill:hover{background:var(--y);border-color:var(--y);color:var(--ink);}
+.cta-border{
+  font-family:'Bangers',cursive;font-size:18px;letter-spacing:0.2em;
+  border:3px solid var(--w);color:var(--w);
+  padding:14px 44px;text-decoration:none;
+  transition:all 0.3s;
+}
+.cta-border:hover{background:var(--w);color:var(--ink);}
+/* scroll arrow */
+.hero-arrow{
+  position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;animation:heroIn 1s 1.3s forwards;z-index:2;
+}
+.hero-arrow span{font-family:'Bangers',cursive;font-size:11px;letter-spacing:0.3em;color:rgba(255,255,255,0.45);}
+.arrow-bounce{font-size:24px;animation:bounce 1.4s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ──── SLASH DIVIDER ──── */
+.slash{
+  height:80px;
+  background:var(--o);
+  clip-path:polygon(0 0,100% 0,100% 60%,0 100%);
+  margin-top:-2px;
+}
+.slash-g{background:var(--g);}
+.slash-c{background:var(--cream);}
+.slash-y{background:var(--y);}
+
+/* ──── ABOUT ──── */
+.about{background:var(--o);padding:80px 60px 120px;position:relative;}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1300px;margin:0 auto;}
+.about-photo{position:relative;}
+.about-photo-wrap{
+  position:relative;
+  transform:rotate(-2deg);
+  transition:transform 0.4s;
+}
+.about-photo-wrap:hover{transform:rotate(0deg) scale(1.02);}
+.about-photo-img{
+  width:100%;aspect-ratio:4/5;
+  overflow:hidden;
+  border:4px solid var(--w);
+}
+.about-photo-img img,.about-photo-img .ph{width:100%;height:100%;object-fit:cover;}
+/* sticker */
+.sticker{
+  position:absolute;
+  bottom:-24px;right:-24px;
+  width:100px;height:100px;
+  background:var(--y);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bangers',cursive;
+  font-size:11px;letter-spacing:0.1em;
+  text-align:center;line-height:1.3;
+  color:var(--ink);
+  border:3px solid var(--ink);
+  animation:stickSpin 12s linear infinite;
+}
+@keyframes stickSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.about-copy{}
+.about-num{font-family:'Bangers',cursive;font-size:120px;line-height:1;color:rgba(255,255,255,0.15);margin-bottom:-30px;}
+.about-h{font-family:'Bangers',cursive;font-size:clamp(52px,6vw,88px);line-height:0.9;color:var(--w);margin-bottom:24px;letter-spacing:0.03em;}
+.about-h em{font-style:normal;color:var(--y);}
+.about-p{font-size:15px;line-height:1.8;color:rgba(255,255,255,0.85);margin-bottom:32px;max-width:400px;}
+.tags{display:flex;gap:10px;flex-wrap:wrap;}
+.tag{font-family:'Bangers',cursive;font-size:14px;letter-spacing:0.15em;padding:8px 18px;background:var(--w);color:var(--o);border:none;transition:all 0.3s;}
+.tag:hover{background:var(--g);color:var(--y);}
+
+/* ──── FOOD ──── */
+.food{background:var(--g);padding:80px 60px 120px;}
+.food-header{margin-bottom:60px;}
+.section-tag{font-family:'Bangers',cursive;font-size:13px;letter-spacing:0.4em;color:var(--o);margin-bottom:10px;}
+.food-h{font-family:'Bangers',cursive;font-size:clamp(56px,8vw,110px);line-height:0.88;color:var(--cream);letter-spacing:0.02em;}
+.food-h em{font-style:normal;color:var(--y);}
+/* polaroid cards scattered */
+.food-cards{
+  display:flex;
+  gap:30px;
+  overflow-x:auto;
+  padding-bottom:20px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  scrollbar-color:var(--o) var(--g2);
+}
+.food-cards::-webkit-scrollbar{height:4px;}
+.food-cards::-webkit-scrollbar-track{background:var(--g2);}
+.food-cards::-webkit-scrollbar-thumb{background:var(--o);}
+.food-card{
+  flex-shrink:0;
+  width:300px;
+  background:var(--w);
+  padding:14px 14px 28px;
+  scroll-snap-align:start;
+  transition:transform 0.4s;
+}
+.food-card:nth-child(odd){transform:rotate(-1.5deg);}
+.food-card:nth-child(even){transform:rotate(1.2deg);margin-top:20px;}
+.food-card:hover{transform:rotate(0deg) scale(1.03)!important;z-index:10;position:relative;}
+.food-card-photo{width:100%;aspect-ratio:1;overflow:hidden;margin-bottom:14px;background:var(--cream);}
+.food-card-photo .ph{background:var(--cream);}
+.food-card-photo .ph span{color:var(--ink);opacity:0.5;}
+.food-card-photo .ph-s{color:var(--o);}
+.food-card-name{font-family:'Bangers',cursive;font-size:22px;letter-spacing:0.1em;color:var(--ink);margin-bottom:4px;}
+.food-card-desc{font-size:12px;color:var(--ink);opacity:0.55;line-height:1.5;}
+/* hint scroll */
+.scroll-hint{font-family:'Bangers',cursive;font-size:11px;letter-spacing:0.25em;color:rgba(255,255,255,0.35);margin-top:16px;text-align:right;}
+
+/* ──── EVENTS ──── */
+.events{background:var(--cream);padding:80px 60px 120px;position:relative;}
+.events-h{font-family:'Bangers',cursive;font-size:clamp(72px,11vw,150px);line-height:0.85;color:var(--g);letter-spacing:0.02em;margin-bottom:60px;}
+.events-h em{font-style:normal;color:var(--o);}
+/* poster-style event cards */
+.events-list{display:flex;flex-direction:column;gap:3px;}
+.event-row{
+  display:grid;
+  grid-template-columns:160px 1fr auto;
+  align-items:center;
+  gap:30px;
+  padding:28px 36px;
+  background:var(--g);
+  border-left:5px solid var(--o);
+  transition:all 0.3s;
+  cursor:default;
+}
+.event-row:hover{background:var(--o);border-color:var(--y);}
+.event-row:hover .edate,.event-row:hover .ename,.event-row:hover .edesc,.event-row:hover .earrow{color:var(--w);}
+.edate{font-family:'Bangers',cursive;font-size:13px;letter-spacing:0.25em;color:var(--o);transition:color 0.3s;line-height:1.5;}
+.event-row:hover .edate{color:var(--y);}
+.ename{font-family:'Bangers',cursive;font-size:28px;letter-spacing:0.05em;color:var(--cream);transition:color 0.3s;}
+.edesc{font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px;transition:color 0.3s;}
+.earrow{font-family:'Bangers',cursive;font-size:28px;color:rgba(255,255,255,0.2);transition:all 0.3s;}
+.event-row:hover .earrow{color:var(--w);transform:translateX(6px);}
+
+/* ──── SPLIT HOURS ──── */
+.hours{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:70vh;
+}
+.hours-left{
+  background:var(--y);
+  padding:80px 60px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.hours-h{font-family:'Bangers',cursive;font-size:clamp(60px,7vw,100px);line-height:0.88;color:var(--ink);margin-bottom:40px;letter-spacing:0.02em;}
+.hours-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:2px solid rgba(0,0,0,0.1);}
+.hours-row:first-of-type{border-top:2px solid rgba(0,0,0,0.1);}
+.hday{font-family:'Bangers',cursive;font-size:18px;letter-spacing:0.12em;color:var(--ink);}
+.htime{font-size:14px;color:var(--ink);opacity:0.7;font-weight:400;}
+.hours-right{
+  background:var(--g);
+  padding:80px 60px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+}
+/* big coconut watermark */
+.hours-right::before{
+  content:'🥥';
+  position:absolute;right:-40px;bottom:-40px;
+  font-size:260px;opacity:0.06;
+  pointer-events:none;
+  animation:spin 20s linear infinite reverse;
+}
+.loc-tag{font-family:'Bangers',cursive;font-size:13px;letter-spacing:0.4em;color:var(--o);margin-bottom:20px;}
+.loc-name{font-family:'Bangers',cursive;font-size:clamp(40px,5vw,72px);line-height:0.9;color:var(--cream);margin-bottom:32px;letter-spacing:0.02em;}
+.loc-detail{font-size:14px;line-height:2;color:rgba(254,251,232,0.6);margin-bottom:32px;}
+.loc-detail strong{color:var(--y);font-weight:500;}
+.cta-wa{
+  display:inline-block;background:var(--o);
+  font-family:'Bangers',cursive;font-size:16px;letter-spacing:0.2em;
+  color:var(--w);padding:14px 40px;text-decoration:none;
+  border:3px solid var(--o);transition:all 0.3s;align-self:flex-start;
+}
+.cta-wa:hover{background:var(--y);border-color:var(--y);color:var(--ink);}
+
+/* ──── FOOTER ──── */
+footer{
+  background:var(--ink);
+  padding:36px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+  border-top:4px solid var(--o);
+}
+.f-name{font-family:'Bangers',cursive;font-size:22px;letter-spacing:0.2em;color:var(--cream);}
+.f-name em{font-style:normal;color:var(--o);}
+.f-copy{font-size:9px;letter-spacing:0.1em;color:rgba(255,251,232,0.2);}
+.f-nav{display:flex;gap:22px;}
+.f-nav a{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,251,232,0.3);text-decoration:none;transition:color 0.3s;}
+.f-nav a:hover{color:var(--o);}
+
+/* WA FLOAT */
+.wa-float{
+  position:fixed;bottom:28px;right:28px;z-index:200;
+  width:56px;height:56px;border-radius:50%;
+  background:#25D366;display:flex;align-items:center;justify-content:center;
+  text-decoration:none;box-shadow:0 4px 24px rgba(37,211,102,0.4);
+  transition:transform 0.3s;
+}
+.wa-float:hover{transform:scale(1.12);}
+.wa-float svg{width:28px;height:28px;fill:white;}
+
+/* REVEALS */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 0.9s,transform 0.9s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-l{opacity:0;transform:translateX(-44px);transition:opacity 0.9s,transform 0.9s;}
+.reveal-l.visible{opacity:1;transform:translateX(0);}
+.reveal-r{opacity:0;transform:translateX(44px);transition:opacity 0.9s,transform 0.9s;}
+.reveal-r.visible{opacity:1;transform:translateX(0);}
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}.d4{transition-delay:0.4s;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:10px 24px;}
+  nav.scrolled{padding:7px 24px;}
+  .nav-r .nav-r a:not(.nav-res){display:none;}
+  .burger{display:flex;}
+  .drw{display:flex;}
+  /* hide all nav links on mobile */
+  .nav-r{display:none;}
+  .about-inner{grid-template-columns:1fr;gap:40px;}
+  .about{padding:70px 24px 100px;}
+  .food{padding:70px 24px 100px;}
+  .events{padding:70px 24px 100px;}
+  .hours{grid-template-columns:1fr;}
+  .hours-left,.hours-right{padding:60px 24px;}
+  footer{padding:28px 24px;flex-direction:column;align-items:flex-start;}
+  .about-photo-wrap{max-width:300px;}
+}
+@media(max-width:600px){
+  .hero-h1{font-size:clamp(58px,14vw,100px);}
+  .food-card{width:240px;}
+  .event-row{grid-template-columns:1fr;gap:8px;padding:20px 22px;}
+  .earrow{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo-wrap">
+    <div class="nav-logo-ph">LOGO</div>
+  </a>
+  <div class="nav-r">
+    <a href="#about">Das Coconut</a>
+    <a href="#food">Speisekarte</a>
+    <a href="#events">Events</a>
+    <a href="#hours">Öffnungszeiten</a>
+    <a href="https://wa.me/4366414542280" target="_blank" class="nav-res">Reservieren</a>
+  </div>
+  <button class="burger" onclick="openD()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- DRAWER -->
+<div class="drw-ov" id="dov" onclick="closeD()"></div>
+<div class="drw" id="drw">
+  <button class="drw-x" onclick="closeD()">✕</button>
+  <a href="#about" onclick="closeD()">Das Coconut</a>
+  <a href="#food" onclick="closeD()">Speisekarte</a>
+  <a href="#events" onclick="closeD()">Events</a>
+  <a href="#hours" onclick="closeD()">Öffnungszeiten</a>
+  <a href="https://wa.me/4366414542280" target="_blank" style="color:var(--o)!important;">Reservieren →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo">
+    <div class="ph"><span>hero-bg.png · 1920×1080px</span></div>
+  </div>
+  <div class="hero-wash"></div>
+  <div class="hero-type">COCONUT</div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">🥥 Spielberg · Marktpassage</div>
+    <h1 class="hero-h1">CO<span class="yellow">CO</span>NUT</h1>
+    <p class="hero-tagline">Essbar · Trinkbar · Feierbar</p>
+    <div class="hero-ctas">
+      <a href="#food" class="cta-fill">Speisekarte</a>
+      <a href="https://wa.me/4366414542280" target="_blank" class="cta-border">Tisch reservieren</a>
+    </div>
+  </div>
+  <div class="hero-arrow"><span>Scroll</span><div class="arrow-bounce">↓</div></div>
+</section>
+
+<!-- SLASH -->
+<div class="slash slash-g"></div>
+
+<!-- ABOUT -->
+<section id="about" class="about">
+  <div class="about-inner">
+    <div class="about-photo reveal-l">
+      <div class="about-photo-wrap">
+        <div class="about-photo-img">
+          <div class="ph"><span>vibe.png · 800×1000px</span></div>
+        </div>
+        <div class="sticker">171+<br>Bewertungen</div>
+      </div>
+    </div>
+    <div class="about-copy reveal-r">
+      <div class="about-num">01</div>
+      <h2 class="about-h">MEHR ALS<br>EIN <em>LOKAL.</em></h2>
+      <p class="about-p">Tropical Vibes, Graffiti-Wände, frisches Essen — das Coconut Spielberg ist dein Spot. Egal ob chillen, feiern oder Sport schauen.</p>
+      <div class="tags">
+        <span class="tag">🍕 Restaurant</span>
+        <span class="tag">🍹 Bar</span>
+        <span class="tag">🎉 Events</span>
+        <span class="tag">⚽ Sport</span>
+        <span class="tag">🐾 Hunde ok</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLASH -->
+<div class="slash" style="background:var(--o);clip-path:polygon(0 40%,100% 0,100% 100%,0 100%);height:70px;margin-top:-2px;"></div>
+
+<!-- FOOD -->
+<section id="food" class="food">
+  <div class="food-header reveal">
+    <p class="section-tag">Was wir bieten</p>
+    <h2 class="food-h">GUTES <em>ESSEN,</em><br>NOCH BESSERE<br><em>DRINKS.</em></h2>
+  </div>
+  <div class="food-cards">
+    <div class="food-card">
+      <div class="food-card-photo">
+        <div class="ph"><span>food-pizza.png</span><span class="ph-s">600×600px</span></div>
+      </div>
+      <div class="food-card-name">Pizza & Snacks</div>
+      <div class="food-card-desc">Knusprig, frisch, unschlagbar gut.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-card-photo">
+        <div class="ph"><span>food-bosna.png</span><span class="ph-s">600×600px</span></div>
+      </div>
+      <div class="food-card-name">Bosna Special</div>
+      <div class="food-card-desc">Das Original. Würzig. Mit Pommes.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-card-photo">
+        <div class="ph"><span>food-cocktails.png</span><span class="ph-s">600×600px</span></div>
+      </div>
+      <div class="food-card-name">Cocktails</div>
+      <div class="food-card-desc">Tropical Vibes im Glas.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-card-photo">
+        <div class="ph"><span>food-drinks.png</span><span class="ph-s">600×600px</span></div>
+      </div>
+      <div class="food-card-name">Drinks & Beer</div>
+      <div class="food-card-desc">Kalt. Frisch. Genau richtig.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-card-photo">
+        <div class="ph"><span>food-daily.png</span><span class="ph-s">600×600px</span></div>
+      </div>
+      <div class="food-card-name">Tagesspecials</div>
+      <div class="food-card-desc">Immer was Neues. Immer geil.</div>
+    </div>
+  </div>
+  <p class="scroll-hint">← Wischen für mehr →</p>
+</section>
+
+<!-- SLASH -->
+<div class="slash slash-c" style="clip-path:polygon(0 0,100% 40%,100% 100%,0 100%);height:70px;margin-top:-2px;"></div>
+
+<!-- EVENTS -->
+<section id="events" class="events">
+  <h2 class="events-h reveal">EVENTS &<br><em>AKTIONEN</em></h2>
+  <div class="events-list">
+    <div class="event-row reveal">
+      <div class="edate">17.–19. April 2026</div>
+      <div><div class="ename">🔥 Bosna Weekend</div><div class="edesc">Bosna mit Pommes · nur 9,90 € · Spezialpreis</div></div>
+      <div class="earrow">→</div>
+    </div>
+    <div class="event-row reveal d1">
+      <div class="edate">Jeden Spieltag</div>
+      <div><div class="ename">⚽ Sportübertragungen</div><div class="edesc">Alle großen Spiele live auf unseren Screens</div></div>
+      <div class="earrow">→</div>
+    </div>
+    <div class="event-row reveal d2">
+      <div class="edate">Samstag Nacht</div>
+      <div><div class="ename">🎵 Party Night</div><div class="edesc">Der beste Samstagabend im Murtal</div></div>
+      <div class="earrow">→</div>
+    </div>
+    <div class="event-row reveal d3">
+      <div class="edate">Nach Vereinbarung</div>
+      <div><div class="ename">🎂 Private Events</div><div class="edesc">Geburtstag, Firmenfest, einfach feiern — wir machen das</div></div>
+      <div class="earrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS SPLIT -->
+<section id="hours" class="hours">
+  <div class="hours-left reveal-l">
+    <h2 class="hours-h">ÖFFNUNGS<br>ZEITEN</h2>
+    <div class="hours-row"><span class="hday">Mo – Do</span><span class="htime">11:00 – 22:00</span></div>
+    <div class="hours-row"><span class="hday">Freitag</span><span class="htime">11:00 – 24:00</span></div>
+    <div class="hours-row"><span class="hday">Samstag</span><span class="htime">11:00 – 24:00</span></div>
+    <div class="hours-row"><span class="hday">Sonntag</span><span class="htime">11:00 – 22:00</span></div>
+  </div>
+  <div class="hours-right reveal-r">
+    <p class="loc-tag">Wo wir sind</p>
+    <h3 class="loc-name">COCONUT<br>SPIELBERG</h3>
+    <p class="loc-detail">
+      Marktpassage 1C/11–12<br>
+      8724 Spielberg<br><br>
+      <strong>Tel:</strong> 0664 1454280<br>
+      <strong>Mail:</strong> hallo@coconut.st
+    </p>
+    <a href="https://wa.me/4366414542280" target="_blank" class="cta-wa">Tisch via WhatsApp</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-name">COCONUT <em>SPIELBERG</em></div>
+  <p class="f-copy">© 2026 Coconut Spielberg · Marktpassage 1C, 8724 Spielberg</p>
+  <div class="f-nav"><a href="#">Impressum</a><a href="#">Datenschutz</a></div>
+</footer>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/4366414542280" class="wa-float" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// NAV scroll
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
+
+// REVEALS
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.08});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(r=>obs.observe(r));
+
+// DRAWER
+function openD(){document.getElementById('drw').classList.add('open');document.getElementById('dov').classList.add('open');}
+function closeD(){document.getElementById('drw').classList.remove('open');document.getElementById('dov').classList.remove('open');}
+</script>
+</body>
+</html>

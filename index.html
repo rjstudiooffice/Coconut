@@ -6,30 +6,19 @@
 <title>Coconut Spielberg – Essbar. Trinkbar. Feierbar.</title>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --g: #0d2b0d;
-  --g2: #1a4a1a;
-  --o: #ff4e00;
-  --y: #ffd000;
-  --cream: #fffbe8;
-  --cream2: #fff5cc;
-  --w: #ffffff;
-  --ink: #0a1a0a;
-}
+:root{--g:#0d2b0d;--g2:#1a4a1a;--o:#ff4e00;--y:#ffd000;--cream:#fffbe8;--cream2:#fff5cc;--w:#ffffff;--ink:#0a1a0a;}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
-
 .ph{width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
 .ph span{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-align:center;padding:0 10px;line-height:1.5;}
 .ph-s{font-size:8px;color:var(--o);opacity:0.7;}
 
-/* NAV — compact height */
+/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:8px 50px;transition:all 0.4s;}
 nav.scrolled{background:var(--g);padding:6px 50px;}
 .nav-logo-wrap{text-decoration:none;}
-.nav-logo-ph{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.12);border:2px dashed rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:9px;letter-spacing:0.1em;color:var(--y);animation:spin 8s linear infinite;transition:width 0.3s,height 0.3s;}
-nav.scrolled .nav-logo-ph{width:42px;height:42px;}
+.nav-logo-ph{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.12);border:2px dashed rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:9px;letter-spacing:0.1em;color:var(--y);animation:spin 8s linear infinite;}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .nav-r{display:flex;align-items:center;gap:28px;}
 .nav-r a{font-family:'Bangers',cursive;font-size:17px;letter-spacing:0.12em;color:var(--w);text-decoration:none;opacity:0.8;transition:all 0.25s;}
@@ -38,7 +27,6 @@ nav.scrolled .nav-logo-ph{width:42px;height:42px;}
 .nav-res:hover{background:var(--y)!important;color:var(--ink)!important;}
 .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;}
 .burger span{width:24px;height:2px;background:var(--w);display:block;}
-
 .drw{display:none;position:fixed;top:0;right:-100%;width:260px;height:100vh;background:var(--g);z-index:400;padding:80px 36px;flex-direction:column;transition:right 0.4s;border-left:3px solid var(--o);}
 .drw.open{right:0;}
 .drw a{font-family:'Bangers',cursive;font-size:24px;letter-spacing:0.15em;color:var(--cream);text-decoration:none;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.1);display:block;transition:color 0.25s;}
@@ -47,33 +35,35 @@ nav.scrolled .nav-logo-ph{width:42px;height:42px;}
 .drw-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:399;}
 .drw-ov.open{display:block;}
 
-/* HERO — tighter spacing, everything visible */
+/* HERO — scroll is INSIDE the flex flow, not absolute */
 .hero{
-  height:100vh;
-  min-height:620px;
-  position:relative;
-  overflow:hidden;
-  background:var(--g);
-  display:flex;
-  flex-direction:column;
+  height:100vh;min-height:620px;
+  position:relative;overflow:hidden;background:var(--g);
+  /* flex column, space-between so scroll indicator goes to bottom */
+  display:flex;flex-direction:column;
   align-items:center;
-  justify-content:center;
-  /* small top offset for nav — nav is ~68px */
-  padding-top:68px;
-  padding-bottom:52px; /* room for scroll indicator */
+  justify-content:space-between;
+  padding-top:66px; /* nav height */
+  padding-bottom:20px;
 }
 .hero-photo{position:absolute;inset:0;}
 .hero-photo .ph{filter:brightness(0.45) saturate(1.2);}
 .hero-wash{position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,43,13,0.8) 0%,rgba(255,78,0,0.2) 60%,transparent 100%);}
 .hero-bg-text{position:absolute;bottom:-20px;left:-10px;font-family:'Bangers',cursive;font-size:clamp(100px,16vw,220px);line-height:0.85;color:rgba(255,255,255,0.05);letter-spacing:0.02em;user-select:none;pointer-events:none;white-space:nowrap;}
 
-/* hero content — tight gaps */
-.hero-content{position:relative;z-index:2;text-align:center;width:100%;padding:0 30px;display:flex;flex-direction:column;align-items:center;}
-.hero-eyebrow{display:inline-block;background:var(--o);font-family:'Bangers',cursive;font-size:14px;letter-spacing:0.3em;color:var(--w);padding:6px 20px;margin-bottom:10px;opacity:0;animation:fadeUp 0.6s 0.3s forwards;}
-.hero-h1{font-family:'Bangers',cursive;font-size:clamp(64px,13vw,160px);line-height:0.88;color:var(--w);letter-spacing:0.03em;text-shadow:4px 4px 0 var(--o);margin-bottom:4px;opacity:0;animation:fadeUp 0.6s 0.45s forwards;}
+/* center block — takes remaining space */
+.hero-center{
+  position:relative;z-index:2;
+  flex:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;width:100%;padding:0 30px;
+  gap:10px;
+}
+.hero-eyebrow{display:inline-block;background:var(--o);font-family:'Bangers',cursive;font-size:14px;letter-spacing:0.3em;color:var(--w);padding:6px 20px;opacity:0;animation:fadeUp 0.6s 0.3s forwards;}
+.hero-h1{font-family:'Bangers',cursive;font-size:clamp(64px,13vw,160px);line-height:0.88;color:var(--w);letter-spacing:0.03em;text-shadow:4px 4px 0 var(--o);opacity:0;animation:fadeUp 0.6s 0.45s forwards;}
 .hero-h1 .y{color:var(--y);text-shadow:3px 3px 0 var(--o);}
-.hero-tagline{font-family:'Bangers',cursive;font-size:clamp(16px,2.8vw,32px);letter-spacing:0.3em;color:rgba(255,255,255,0.65);margin-bottom:22px;opacity:0;animation:fadeUp 0.6s 0.6s forwards;}
-.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;opacity:0;animation:fadeUp 0.6s 0.75s forwards;}
+.hero-tagline{font-family:'Bangers',cursive;font-size:clamp(16px,2.8vw,32px);letter-spacing:0.3em;color:rgba(255,255,255,0.65);opacity:0;animation:fadeUp 0.6s 0.6s forwards;}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp 0.6s 0.75s forwards;}
 .cta-fill{font-family:'Bangers',cursive;font-size:18px;letter-spacing:0.2em;background:var(--o);color:var(--w);padding:13px 42px;text-decoration:none;border:3px solid var(--o);transition:all 0.3s;}
 .cta-fill:hover{background:var(--y);border-color:var(--y);color:var(--ink);}
 .cta-border{font-family:'Bangers',cursive;font-size:18px;letter-spacing:0.2em;border:3px solid var(--w);color:var(--w);padding:13px 42px;text-decoration:none;transition:all 0.3s;}
@@ -83,15 +73,19 @@ nav.scrolled .nav-logo-ph{width:42px;height:42px;}
 .hstat-n{font-family:'Bangers',cursive;font-size:34px;color:var(--y);line-height:1;}
 .hstat-l{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:2px;}
 
-/* scroll — absolute bottom, tight */
-.hero-scroll{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:2;opacity:0;animation:fadeUp 0.8s 1.2s forwards;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.hero-scroll span{font-family:'Bangers',cursive;font-size:10px;letter-spacing:0.3em;color:rgba(255,255,255,0.35);}
-.bounce{animation:bnc 1.5s ease-in-out infinite;font-size:16px;line-height:1;}
-@keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+/* scroll — normal flex child at the bottom */
+.hero-scroll{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  opacity:0;animation:fadeUp 0.8s 1.1s forwards;
+  flex-shrink:0;
+}
+.hero-scroll span{font-family:'Bangers',cursive;font-size:10px;letter-spacing:0.3em;color:rgba(255,255,255,0.4);}
+.bounce{animation:bnc 1.5s ease-in-out infinite;font-size:18px;line-height:1;}
+@keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
 /* SLASH */
-.slash{height:70px;margin-top:-2px;}
-.slash-go{background:var(--g);clip-path:polygon(0 0,100% 0,100% 50%,0 100%);}
+.slash-go{height:70px;background:var(--g);clip-path:polygon(0 0,100% 0,100% 50%,0 100%);margin-top:-2px;}
 
 /* ABOUT */
 .about{background:var(--o);padding:80px 60px 110px;}
@@ -99,7 +93,6 @@ nav.scrolled .nav-logo-ph{width:42px;height:42px;}
 .about-photo-wrap{position:relative;transform:rotate(-2deg);transition:transform 0.4s;}
 .about-photo-wrap:hover{transform:rotate(0deg) scale(1.02);}
 .about-photo-frame{width:100%;aspect-ratio:4/5;overflow:hidden;border:5px solid var(--w);}
-.about-photo-frame .ph{background:rgba(0,0,0,0.2);}
 .sticker{position:absolute;bottom:-28px;right:-28px;width:100px;height:100px;border-radius:50%;background:var(--y);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:11px;letter-spacing:0.08em;text-align:center;line-height:1.3;color:var(--ink);animation:spin 14s linear infinite;}
 .about-h{font-family:'Bangers',cursive;font-size:clamp(52px,6vw,88px);line-height:0.9;color:var(--w);margin-bottom:22px;letter-spacing:0.02em;}
 .about-h em{font-style:normal;color:var(--y);}
@@ -152,7 +145,7 @@ nav.scrolled .nav-logo-ph{width:42px;height:42px;}
 .hrow{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:2px solid rgba(0,0,0,0.1);}
 .hrow:first-of-type{border-top:2px solid rgba(0,0,0,0.1);}
 .hday{font-family:'Bangers',cursive;font-size:22px;letter-spacing:0.1em;color:var(--ink);}
-.htime{font-size:15px;color:var(--ink);opacity:0.65;font-weight:400;}
+.htime{font-size:15px;color:var(--ink);opacity:0.65;}
 .h-right{background:var(--g);padding:80px 60px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;}
 .h-right::before{content:'🥥';position:absolute;right:-50px;bottom:-50px;font-size:260px;opacity:0.05;pointer-events:none;animation:spin 22s linear infinite reverse;}
 .loc-tag{font-family:'Bangers',cursive;font-size:13px;letter-spacing:0.4em;color:var(--o);margin-bottom:18px;}
@@ -162,7 +155,6 @@ nav.scrolled .nav-logo-ph{width:42px;height:42px;}
 .cta-wa{display:inline-block;background:var(--o);font-family:'Bangers',cursive;font-size:15px;letter-spacing:0.2em;color:var(--w);padding:13px 36px;text-decoration:none;border:3px solid var(--o);transition:all 0.3s;align-self:flex-start;}
 .cta-wa:hover{background:var(--y);border-color:var(--y);color:var(--ink);}
 
-/* FOOTER */
 footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;border-top:4px solid var(--o);}
 .f-name{font-family:'Bangers',cursive;font-size:22px;letter-spacing:0.18em;color:var(--cream);}
 .f-name em{font-style:normal;color:var(--o);}
@@ -182,7 +174,6 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
 .reveal-r{opacity:0;transform:translateX(44px);transition:opacity 0.9s,transform 0.9s;}
 .reveal-r.visible{opacity:1;transform:translateX(0);}
 .d1{transition-delay:0.12s;}.d2{transition-delay:0.22s;}.d3{transition-delay:0.32s;}
-
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
 @media(max-width:1024px){
@@ -208,9 +199,7 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#" class="nav-logo-wrap">
-    <div class="nav-logo-ph">LOGO</div>
-  </a>
+  <a href="#" class="nav-logo-wrap"><div class="nav-logo-ph">LOGO</div></a>
   <div class="nav-r">
     <a href="#about">Das Coconut</a>
     <a href="#food">Speisekarte</a>
@@ -231,12 +220,14 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
   <a href="https://wa.me/4366414542280" target="_blank" style="color:var(--o)!important;">Reservieren →</a>
 </div>
 
-<!-- HERO -->
+<!-- HERO — scroll is part of flex flow, always visible -->
 <section class="hero">
   <div class="hero-photo"><div class="ph"><span>hero-bg.png · 1920×1080px</span></div></div>
   <div class="hero-wash"></div>
   <div class="hero-bg-text">COCONUT</div>
-  <div class="hero-content">
+
+  <!-- center content -->
+  <div class="hero-center">
     <div class="hero-eyebrow">🥥 Spielberg · Marktpassage</div>
     <h1 class="hero-h1">CO<span class="y">CO</span>NUT</h1>
     <p class="hero-tagline">Essbar · Trinkbar · Feierbar</p>
@@ -250,10 +241,15 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
       <div class="hstat"><div class="hstat-n">1.960</div><div class="hstat-l">Follower</div></div>
     </div>
   </div>
-  <div class="hero-scroll"><div class="bounce">↓</div><span>Scroll</span></div>
+
+  <!-- scroll indicator — flex child at bottom, always rendered -->
+  <div class="hero-scroll">
+    <div class="bounce">↓</div>
+    <span>Scroll</span>
+  </div>
 </section>
 
-<div class="slash slash-go"></div>
+<div class="slash-go"></div>
 
 <!-- ABOUT -->
 <section id="about" class="about">

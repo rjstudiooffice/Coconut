@@ -15,12 +15,7 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
 nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:8px 50px;transition:all 0.4s;}
 nav.scrolled{background:var(--g);padding:6px 50px;}
 .nav-logo-wrap{text-decoration:none;display:flex;align-items:center;}
-.nav-logo-wrap img{
-  height:80px;
-  width:auto;
-  object-fit:contain;
-  transition:height 0.3s;
-}
+.nav-logo-wrap img{height:80px;width:auto;object-fit:contain;transition:height 0.3s;}
 nav.scrolled .nav-logo-wrap img{height:56px;}
 .nav-r{display:flex;align-items:center;gap:28px;}
 .nav-r a{font-family:'Bangers',cursive;font-size:17px;letter-spacing:0.12em;color:var(--w);text-decoration:none;opacity:0.8;transition:all 0.25s;}
@@ -37,14 +32,49 @@ nav.scrolled .nav-logo-wrap img{height:56px;}
 .drw-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:399;}
 .drw-ov.open{display:block;}
 
-/* HERO */
-.hero{height:100vh;min-height:580px;background:var(--g);position:relative;display:grid;grid-template-rows:96px 1fr 52px;}
-.hero-bg-wrap{position:absolute;inset:0;overflow:hidden;z-index:0;}
+/* HERO
+   Simple: full height, flex column
+   hero-center fills space and contains EVERYTHING including scroll
+   No separate grid rows, no overflow:hidden on .hero
+*/
+.hero{
+  height:100vh;
+  min-height:580px;
+  background:var(--g);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+.hero-bg-wrap{
+  position:absolute;inset:0;
+  overflow:hidden;z-index:0;
+}
 .hero-bg-wrap img{width:100%;height:100%;object-fit:cover;filter:brightness(0.45) saturate(1.2);}
 .hero-wash{position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,43,13,0.8) 0%,rgba(255,78,0,0.2) 60%,transparent 100%);}
 .hero-bg-text{position:absolute;bottom:-20px;left:-10px;font-family:'Bangers',cursive;font-size:clamp(100px,16vw,220px);line-height:0.85;color:rgba(255,255,255,0.05);letter-spacing:0.02em;user-select:none;pointer-events:none;white-space:nowrap;}
-.hero-nav-space{grid-row:1;}
-.hero-center{grid-row:2;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 30px;gap:8px;}
+
+/* main content column — takes all height after nav offset */
+.hero-inner{
+  position:relative;z-index:2;
+  flex:1;
+  margin-top:96px; /* nav height */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:0 30px 20px;
+}
+
+/* content cluster — centered vertically in available space */
+.hero-body{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:10px;
+}
+
 .hero-eyebrow{display:inline-block;background:var(--o);font-family:'Bangers',cursive;font-size:14px;letter-spacing:0.3em;color:var(--w);padding:6px 20px;opacity:0;animation:fadeUp 0.6s 0.3s forwards;}
 .hero-h1{font-family:'Bangers',cursive;font-size:clamp(64px,13vw,160px);line-height:0.88;color:var(--w);letter-spacing:0.03em;text-shadow:4px 4px 0 var(--o);opacity:0;animation:fadeUp 0.6s 0.45s forwards;}
 .hero-h1 .y{color:var(--y);text-shadow:3px 3px 0 var(--o);}
@@ -58,7 +88,13 @@ nav.scrolled .nav-logo-wrap img{height:56px;}
 .hstat{text-align:center;}
 .hstat-n{font-family:'Bangers',cursive;font-size:34px;color:var(--y);line-height:1;}
 .hstat-l{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:2px;}
-.hero-scroll{grid-row:3;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;opacity:0;animation:fadeUp 0.8s 1.1s forwards;}
+
+/* scroll — comes AFTER hero-body, pushed to bottom by hero-body's flex:1 */
+.hero-scroll{
+  flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  opacity:0;animation:fadeUp 0.8s 1.1s forwards;
+}
 .hero-scroll span{font-family:'Bangers',cursive;font-size:10px;letter-spacing:0.3em;color:rgba(255,255,255,0.4);}
 .bounce{animation:bnc 1.5s ease-in-out infinite;font-size:18px;line-height:1;}
 @keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
@@ -157,10 +193,9 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
 
 @media(max-width:1024px){
   nav{padding:8px 24px;}nav.scrolled{padding:6px 24px;}
-  .nav-logo-wrap img{height:60px;}
-  nav.scrolled .nav-logo-wrap img{height:44px;}
+  .nav-logo-wrap img{height:60px;}nav.scrolled .nav-logo-wrap img{height:44px;}
   .nav-r{display:none;}.burger{display:flex;}.drw{display:flex;}
-  .hero{grid-template-rows:76px 1fr 52px;}
+  .hero-inner{margin-top:76px;}
   .about{padding:70px 24px 100px;}.about-inner{grid-template-columns:1fr;gap:50px;}
   .about-photo-wrap{max-width:280px;}
   .food{padding:70px 24px 100px;}
@@ -179,7 +214,6 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
 </head>
 <body>
 
-<!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo-wrap">
     <img src="Logococonut.png" alt="Coconut Spielberg">
@@ -210,36 +244,41 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
     <div class="hero-wash"></div>
     <div class="hero-bg-text">COCONUT</div>
   </div>
-  <div class="hero-nav-space"></div>
-  <div class="hero-center">
-    <div class="hero-eyebrow">🥥 Spielberg · Marktpassage</div>
-    <h1 class="hero-h1">CO<span class="y">CO</span>NUT</h1>
-    <p class="hero-tagline">Essbar · Trinkbar · Feierbar</p>
-    <div class="hero-ctas">
-      <a href="#food" class="cta-fill">Speisekarte</a>
-      <a href="https://wa.me/4366414542280" target="_blank" class="cta-border">Tisch reservieren</a>
+
+  <!-- inner column: body (centered) + scroll (bottom) -->
+  <div class="hero-inner">
+
+    <!-- centered content -->
+    <div class="hero-body">
+      <div class="hero-eyebrow">🥥 Spielberg · Marktpassage</div>
+      <h1 class="hero-h1">CO<span class="y">CO</span>NUT</h1>
+      <p class="hero-tagline">Essbar · Trinkbar · Feierbar</p>
+      <div class="hero-ctas">
+        <a href="#food" class="cta-fill">Speisekarte</a>
+        <a href="https://wa.me/4366414542280" target="_blank" class="cta-border">Tisch reservieren</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-n">4,5 ★</div><div class="hstat-l">Google</div></div>
+        <div class="hstat"><div class="hstat-n">171+</div><div class="hstat-l">Bewertungen</div></div>
+        <div class="hstat"><div class="hstat-n">1.960</div><div class="hstat-l">Follower</div></div>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div class="hstat"><div class="hstat-n">4,5 ★</div><div class="hstat-l">Google</div></div>
-      <div class="hstat"><div class="hstat-n">171+</div><div class="hstat-l">Bewertungen</div></div>
-      <div class="hstat"><div class="hstat-n">1.960</div><div class="hstat-l">Follower</div></div>
+
+    <!-- scroll — sits below hero-body, pushed to bottom by hero-body flex:1 -->
+    <div class="hero-scroll">
+      <div class="bounce">↓</div>
+      <span>Scroll</span>
     </div>
-  </div>
-  <div class="hero-scroll">
-    <div class="bounce">↓</div>
-    <span>Scroll</span>
+
   </div>
 </section>
 
 <div class="slash-go"></div>
 
-<!-- ABOUT -->
 <section id="about" class="about">
   <div class="about-inner">
     <div class="about-photo-wrap reveal-l">
-      <div class="about-photo-frame">
-        <img src="vibe.png" alt="Coconut Spielberg Atmosphäre">
-      </div>
+      <div class="about-photo-frame"><img src="vibe.png" alt="Coconut Spielberg Atmosphäre"></div>
       <div class="sticker">4,5★<br>171<br>Reviews</div>
     </div>
     <div class="about-copy reveal-r">
@@ -259,45 +298,23 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
 
 <div style="height:70px;background:var(--g);clip-path:polygon(0 0,100% 50%,100% 100%,0 100%);margin-top:-2px;"></div>
 
-<!-- FOOD -->
 <section id="food" class="food">
   <div class="food-top reveal">
     <p class="sec-tag">Was wir bieten</p>
     <h2 class="food-h">GUTES <em>ESSEN,</em><br>NOCH BESSERE <em>DRINKS.</em></h2>
   </div>
   <div class="food-cards">
-    <div class="fcard">
-      <div class="fcard-img"><img src="food-pizza.png" alt="Pizza"></div>
-      <div class="fcard-name">Pizza</div>
-      <div class="fcard-desc">Knusprig, frisch, unschlagbar gut.</div>
-    </div>
-    <div class="fcard">
-      <div class="fcard-img"><img src="food-burger.png" alt="Burger"></div>
-      <div class="fcard-name">Burger</div>
-      <div class="fcard-desc">Saftig, frisch, genau richtig.</div>
-    </div>
-    <div class="fcard">
-      <div class="fcard-img"><img src="food-snacks.png" alt="Snacks"></div>
-      <div class="fcard-name">Snacks</div>
-      <div class="fcard-desc">Für zwischendurch — immer frisch.</div>
-    </div>
-    <div class="fcard">
-      <div class="fcard-img"><img src="food-drinks.png" alt="Drinks"></div>
-      <div class="fcard-name">Drinks & Beer</div>
-      <div class="fcard-desc">Kalt. Frisch. Genau richtig.</div>
-    </div>
-    <div class="fcard">
-      <div class="fcard-img"><img src="food-daily.png" alt="Tagesspecial"></div>
-      <div class="fcard-name">Tagesspecials</div>
-      <div class="fcard-desc">Immer was Neues. Immer geil.</div>
-    </div>
+    <div class="fcard"><div class="fcard-img"><img src="food-pizza.png" alt="Pizza"></div><div class="fcard-name">Pizza</div><div class="fcard-desc">Knusprig, frisch, unschlagbar gut.</div></div>
+    <div class="fcard"><div class="fcard-img"><img src="food-burger.png" alt="Burger"></div><div class="fcard-name">Burger</div><div class="fcard-desc">Saftig, frisch, genau richtig.</div></div>
+    <div class="fcard"><div class="fcard-img"><img src="food-snacks.png" alt="Snacks"></div><div class="fcard-name">Snacks</div><div class="fcard-desc">Für zwischendurch — immer frisch.</div></div>
+    <div class="fcard"><div class="fcard-img"><img src="food-drinks.png" alt="Drinks"></div><div class="fcard-name">Drinks & Beer</div><div class="fcard-desc">Kalt. Frisch. Genau richtig.</div></div>
+    <div class="fcard"><div class="fcard-img"><img src="food-daily.png" alt="Tagesspecial"></div><div class="fcard-name">Tagesspecials</div><div class="fcard-desc">Immer was Neues. Immer geil.</div></div>
   </div>
   <p class="scroll-hint">← Wischen für mehr →</p>
 </section>
 
 <div style="height:70px;background:var(--cream);clip-path:polygon(0 0,100% 0,100% 60%,0 100%);margin-top:-2px;"></div>
 
-<!-- EVENTS -->
 <section id="events" class="events">
   <h2 class="events-h reveal">EVENTS &<br><em>AKTIONEN</em></h2>
   <div class="events-list">
@@ -308,7 +325,6 @@ footer{background:var(--ink);padding:34px 60px;display:flex;align-items:center;j
   </div>
 </section>
 
-<!-- HOURS -->
 <section id="hours" class="hours">
   <div class="h-left reveal-l">
     <h2 class="hours-title">ÖFFNUNGS<br>ZEITEN</h2>
